@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Expenses Tracer | Dashboard</title>
+    <link rel="stylesheet" href="{% static 'accounts/Dashboard.css' %}">
+</head>
+<body>
+<div class="container">
+    <!-- Top menu -->
+    <ul>
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'logout' %}">🚪 Logout</a></li>
+    </ul>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2 class="logo">💼 Daily Expenses Tracer</h2>
+        <ul class="menu">
+            <li class="menu-item active">📊 Overview</li>
+            <li class="menu-item">🧑 Account</li>
+            <li class="menu-item">💸 Add Expenses</li>
+            <li class="menu-item">💰 Add Income</li>
+            <li class="menu-item">📋 All Transactions</li>
+            <li class="menu-item">📈 Predictions</li>
+            <li class="menu-item">🔔 Alerts</li>
+            <li class="menu-item">⚙️ Settings</li>
+            <li class="menu-item logout"><a href="{% url 'logout' %}">🚪 Logout</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+        <h1>Welcome to Daily Expenses Tracer</h1>
+        <p>Track income, expenses, and get future spending predictions with alerts.</p>
+
+        <section class="dashboard-info">
+            <div class="card">
+                <h3>💸 Total Expenses</h3>
+                <p>Rs. 0</p>
+            </div>
+            <div class="card">
+                <h3>💰 Total Income</h3>
+                <p>Rs. 0</p>
+            </div>
+            <div class="card">
+                <h3>📈 AI Prediction</h3>
+                <p>Upcoming expenses forecast will appear here.</p>
+            </div>
+            <div class="card alert-card">
+                <h3>🔔 Alerts</h3>
+                <p>No alerts yet.</p>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

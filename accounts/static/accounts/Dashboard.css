@@ -1,0 +1,194 @@
+/* -------- RESET -------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* -------- BODY -------- */
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    background: #f3f4f6;
+    display: flex;
+}
+
+/* -------- SIDEBAR -------- */
+.sidebar {
+    width: 260px;
+    background: #111827;
+    color: white;
+    height: 100vh;
+    padding: 25px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+.logo {
+    font-size: 20px;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Menu Styles */
+.menu {
+    list-style: none;
+    padding-left: 0;
+}
+
+.menu-item {
+    padding: 12px 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    transition: 0.3s ease;
+}
+
+.menu-item:hover {
+    background: #1f2937;
+    padding-left: 15px;
+}
+
+.menu-item.active {
+    background: #2563eb;
+    font-weight: 600;
+}
+
+.logout {
+    margin-top: 20px;
+    color: #ff6b6b;
+}
+
+.logout:hover {
+    background: #991b1b;
+}
+
+/* -------- MAIN CONTENT -------- */
+.content {
+    margin-left: 280px;
+    padding: 30px;
+    width: 100%;
+}
+
+.content h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.content p {
+    margin-top: 10px;
+    color: #4b5563;
+    font-size: 15px;
+}
+
+/* -------- DASHBOARD CARDS -------- */
+.dashboard-info {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    border-left: 6px solid #2563eb;
+    transition: 0.3s ease;
+}
+
+.card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Hover effect */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+/* Alert card special color */
+.alert-card {
+    border-left: 6px solid #facc15;
+}
+.alert-card p {
+    color: #ca8a04;
+}
+
+/* Responsive for Tablets */
+@media (max-width: 1024px) {
+    .dashboard-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Responsive for Mobile */
+@media (max-width: 600px) {
+    .sidebar {
+        width: 200px;
+    }
+    .content {
+        margin-left: 220px;
+    }
+    .dashboard-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+.logout-container {
+    width: 400px;
+    margin: 150px auto;
+    text-align: center;
+    padding: 40px;
+    background-color: #fff;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+
+.logout-container h2 {
+    margin-bottom: 30px;
+}
+
+.logout-container form button.logout-btn {
+    padding: 10px 25px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout-container form button.logout-btn:hover {
+    background-color: #e60000;
+}
+
+.logout-container .cancel-btn {
+    padding: 10px 25px;
+    background-color: #aaa;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.logout-container .cancel-btn:hover {
+    background-color: #888;
+}
