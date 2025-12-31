@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Transactions</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #2c3e50;
+            color: #fff;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+
+        .income {
+            color: green;
+            font-weight: bold;
+        }
+
+        .expense {
+            color: red;
+            font-weight: bold;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+
+        /* ===== ACTION MENU ===== */
+        .action-cell {
+            position: relative;
+        }
+
+        .menu-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .menu-dots {
+            font-size: 22px;
+            cursor: pointer;
+            padding: 6px;
+            user-select: none;
+        }
+
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 28px;
+            background: white;
+            border-radius: 6px;
+            min-width: 170px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+            text-align: left;
+        }
+
+        .menu-dropdown a {
+            display: block;
+            padding: 10px 14px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .menu-dropdown a:hover {
+            background: #f4f6f9;
+        }
+
+        .menu-dropdown .delete {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>All Transactions</h2>
+
+<table>
+    <tr>
+        <th>S.N</th>
+        <th>Category</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Bank / Cash</th>
+        <th>Type</th>
+        <th>Action</th>
+    </tr>
+
+    {% for t in transactions %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ t.category }}</td>
+        <td>{{ t.date }}</td>
+        <td>Rs. {{ t.amount }}</td>
+        <td>{{ t.payment }}</td>
+        <td>
+            {% if t.type == "Income" %}
+                <span class="income">Income</span>
+            {% else %}
+                <span class="expense">Expense</span>
+            {% endif %}
+        </td>
+
+        <!-- ACTION COLUMN -->
+        <td class="action-cell">
+            <div class="menu-container">
+                <span class="menu-dots" onclick="toggleMenu(this)">⋮</span>
+
+                <div class="menu-dropdown">
+                    {% if t.type == "Income" %}
+                        <a href="{% url 'edit_income' t.id %}">✏️ Edit Income</a>
+                        <a href="{% url 'delete_income' t.id %}"
+                           class="delete"
+                           onclick="return confirm('Are you sure you want to delete this income?')">
+                           🗑️ Delete Income
+                        </a>
+                    {% else %}
+                        <a href="{% url 'edit_expense' t.id %}">✏️ Edit Expense</a>
+                        <a href="{% url 'delete_expense' t.id %}"
+                           class="delete"
+                           onclick="return confirm('Are you sure you want to delete this expense?')">
+                           🗑️ Delete Expense
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    {% empty %}
+    <tr>
+        <td colspan="7" class="no-data">No transactions found</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+function toggleMenu(dot) {
+    const menu = dot.nextElementSibling;
+
+    // Close other menus
+    document.querySelectorAll('.menu-dropdown').forEach(m => {
+        if (m !== menu) m.style.display = 'none';
+    });
+
+    // Toggle current menu
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.menu-container')) {
+        document.querySelectorAll('.menu-dropdown').forEach(menu => {
+            menu.style.display = 'none';
+        });
+    }
+});
+</script>
+
+</body>
+</html>

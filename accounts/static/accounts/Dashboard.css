@@ -192,3 +192,60 @@ body {
 .logout-container .cancel-btn:hover {
     background-color: #888;
 }
+
+.message-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.alert {
+    padding: 15px 20px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    color: white;
+    font-weight: 500;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Success Message */
+.alert.success {
+    background-color: #28a745;
+}
+
+/* Error Message */
+.alert.error {
+    background-color: #dc3545;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.chart-card {
+    grid-column: 1 / -1;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.chart-header select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+
+
+

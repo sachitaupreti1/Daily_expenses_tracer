@@ -6,14 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Expenses Tracer | Dashboard</title>
     <link rel="stylesheet" href="{% static 'accounts/Dashboard.css' %}">
+   
 </head>
 <body>
+
+<div style="text-align:center; margin-top:20px;">
+    <a href="{% url 'dashboard' %}" class="btn back-btn">⬅ Back to Dashboard</a>
+   
+</div>
+
 <div class="container">
-    <!-- Top menu -->
-    <ul>
-        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-        <li><a href="{% url 'logout' %}">🚪 Logout</a></li>
-    </ul>
+    {% if messages %}
+<div class="message-container">
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
 
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -21,13 +32,13 @@
         <ul class="menu">
             <li class="menu-item active">📊 Overview</li>
             <li class="menu-item">🧑 Account</li>
-            <li class="menu-item">💸 Add Expenses</li>
-            <li class="menu-item">💰 Add Income</li>
-            <li class="menu-item">📋 All Transactions</li>
+            <li class="menu-item"><a href="{% url 'add_expenses' %}" style="color: white; text-decoration: none;">💸 Add Expenses</a></li>
+            <li class="menu-item"><a href="{% url 'add_income' %}" style="color:white;text-decoration:none;">💰 Add Income</a></li>
+            <li class="menu-item"><a href="{% url 'all_transactions' %}" style="color:white;text-decoration: none;">📋 All Transactions</a></li>
             <li class="menu-item">📈 Predictions</li>
             <li class="menu-item">🔔 Alerts</li>
             <li class="menu-item">⚙️ Settings</li>
-            <li class="menu-item logout"><a href="{% url 'logout' %}">🚪 Logout</a></li>
+            <li class="menu-item logout"><a href="{% url 'logout' %}" style="color:white;text-decoration:none;">🚪 Logout</a></li>
         </ul>
     </aside>
 
@@ -46,15 +57,102 @@
                 <p>Rs. 0</p>
             </div>
             <div class="card">
-                <h3>📈 AI Prediction</h3>
-                <p>Upcoming expenses forecast will appear here.</p>
+                <h3>📈 Up comming Expenses/Income</h3>
+              
             </div>
             <div class="card alert-card">
-                <h3>🔔 Alerts</h3>
+                <h3>🔔 Reminders</h3>
                 <p>No alerts yet.</p>
             </div>
+            <div class="card chart-card">
+    <div class="chart-header">
+        <h3>📊 Cashflow</h3>
+
+        <select id="cashflowType">
+            <option value="week"> Days</option>
+            <option value="month"> Months</option>
+        </select>
+    </div>
+
+    <canvas id="cashflowChart"></canvas>
+</div>
+
+
+
         </section>
     </main>
 </div>
 </body>
+<script>
+    setTimeout(function () {
+        const alerts = document.querySelectorAll(".alert");
+        alerts.forEach(alert => {
+            alert.style.display = "none";
+        });
+    }, 3000); // 3 seconds
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const ctx = document.getElementById('cashflowChart').getContext('2d');
+
+const weeklyData = {
+    labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+  
+};
+
+const monthlyData = {
+   labels: [
+    'Baisakh', 'Jestha', 'Ashadh', 'Shrawan',
+    'Bhadra', 'Ashwin', 'Kartik', 'Mangsir',
+    'Poush', 'Magh', 'Falgun', 'Chaitra'
+],
+
+    
+};
+
+let cashflowChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: weeklyData.labels,
+        datasets: [
+            {
+                label: 'Income',
+                data: weeklyData.income,
+                backgroundColor: 'rgba(40, 167, 69, 0.8)' // GREEN
+            },
+            {
+                label: 'Expenses',
+                data: weeklyData.expenses,
+                backgroundColor: 'rgba(220, 53, 69, 0.8)' // RED
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+document.getElementById('cashflowType').addEventListener('change', function () {
+    let type = this.value;
+
+    if (type === 'week') {
+        cashflowChart.data.labels = weeklyData.labels;
+        cashflowChart.data.datasets[0].data = weeklyData.income;
+        cashflowChart.data.datasets[1].data = weeklyData.expenses;
+    } else {
+        cashflowChart.data.labels = monthlyData.labels;
+        cashflowChart.data.datasets[0].data = monthlyData.income;
+        cashflowChart.data.datasets[1].data = monthlyData.expenses;
+    }
+
+    cashflowChart.update();
+});
+</script>
+
+
 </html>
