@@ -1,88 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Income</title>
+{% extends 'accounts/base.html' %}
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f7;
-            padding: 40px;
-        }
+{% block title %}Edit Expense{% endblock %}
 
-        .form-box {
-            width: 420px;
-            margin: auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+{% block content %}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #27ae60; /* green for income */
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #27ae60;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #1e8449;
-        }
-    </style>
-
-    <a href="{% url 'add_expense' %}" class="add-expense-btn">
-    + Add New Expense
-</a>
-</head>
-
-<body>
-
-<div class="form-box">
-    <h2>Edit Income</h2>
+<div style="max-width:500px; margin:auto; background:white; padding:30px; border-radius:10px;">
+    <h3 style="margin-bottom:20px;">Edit Expense</h3>
 
     <form method="POST">
         {% csrf_token %}
 
-        <label>Title</label>
-        <input type="text" name="title" value="{{ income.title }}" required>
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+            <input type="text" value="Manual" disabled
+                   style="flex:1; padding:10px; border:1px solid #ccc; border-radius:5px;">
 
-        <label>Category</label>
-        <input type="text" name="category" value="{{ income.category }}" required>
+            <input type="date" name="date"
+                   value="{{ expense.date|date:'Y-m-d' }}"
+                   style="flex:1; padding:10px; border:1px solid #ccc; border-radius:5px;">
+        </div>
 
-        <label>Amount</label>
-        <input type="number" name="amount" value="{{ income.amount }}" required>
+        <input type="text" name="category"
+               value="{{ expense.category }}"
+               placeholder="Expense Category"
+               style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; margin-bottom:15px;">
 
-        <label>Date</label>
-        <input type="date" name="date" value="{{ income.date }}" required>
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+            <input type="number" name="amount"
+                   value="{{ expense.amount }}"
+                   placeholder="Total Amount"
+                   style="flex:1; padding:10px; border:1px solid #ccc; border-radius:5px;">
 
-        <button type="submit">Update Income</button>
+            <select name="payment_mode"
+                    style="flex:1; padding:10px; border:1px solid #ccc; border-radius:5px;">
+                <option value="Cash" {% if expense.payment_mode == "Cash" %}selected{% endif %}>Cash</option>
+                <option value="Online" {% if expense.payment_mode == "Online" %}selected{% endif %}>Online</option>
+                <option value="Card" {% if expense.payment_mode == "Card" %}selected{% endif %}>Card</option>
+            </select>
+        </div>
+
+        <textarea name="remarks"
+                  placeholder="Remarks"
+                  style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; min-height:80px; margin-bottom:15px;">{{ expense.remarks }}</textarea>
+
+        <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <a href="{% url 'expenses' %}"
+               style="padding:10px 20px; border:1px solid #ccc; border-radius:5px; background:#f0f0f0; text-decoration:none;">
+                Cancel
+            </a>
+            <button type="submit"
+                    style="padding:10px 20px; border:none; border-radius:5px; background:#28a745; color:white; font-weight:bold;">
+                Update Expense
+            </button>
+        </div>
     </form>
 </div>
 
-</body>
-</html>
+{% endblock %}

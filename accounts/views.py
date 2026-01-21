@@ -175,6 +175,8 @@ def edit_income(request, id):
 # EDIT EXPENSE
 # =========================
 
+
+
 def edit_expense(request, id):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -188,9 +190,12 @@ def edit_expense(request, id):
         expense.date = request.POST.get("date")
         expense.remarks = request.POST.get("remarks", "")
         expense.save()
+
         return redirect('expenses')
 
-    return render(request, 'accounts/edit_expense.html', {'expense': expense})
+    return render(request, 'accounts/edit_expense.html', {
+        'expense': expense
+    })
 
 
 # =========================
