@@ -1,45 +1,150 @@
+{% extends 'accounts/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Income</title>
-    <link rel="stylesheet" href="{% static 'accounts/add_forms.css' %}">
-</head>
-<body>
 
-<div class="form-container">
-    <h2>Add Income</h2>
+{% block title %}Add Income{% endblock %}
 
-    <form method="POST">
-        {% csrf_token %}
+{% block extra_css %}
+<style>
+    /* Page-specific styles only */
+    .income-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
 
-        <label>Amount (Rs.)</label>
-        <input type="number" name="amount" step="0.01" required>
+    .add-income-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+    }
 
-        <label>Source</label>
-        <select name="source" required>
-            <option value="Salary"> Salary</option>
-            <option value="Freelancing"> Freelancing</option>
-            <option value="Business"> Business</option>
-            <option value="Gift"> Gift</option>
-            <option value="Others"> Others</option>
-        </select>
+    .income-filters {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
 
-        <label>Date</label>
-        <input type="date" name="date" required>
+    .filter-input {
+        padding: 8px 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
 
-         <label>Payment method</label>
-        <select name="Payment method" required>
-            <option value="Bank">Bank</option>
-            <option value="Cash">Cash</option>
-        </select>
+    .income-table-wrapper {
+        background: white;
+        border-radius: 8px;
+        overflow-x: auto;
+    }
 
-        <label>Description</label>
-        <textarea name="description" placeholder="Optional"></textarea>
+    .income-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        <button type="submit">Add Income</button>
-    </form>
+    .income-table th,
+    .income-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .income-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .action {
+        margin-right: 10px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .action.edit {
+        color: #007bff;
+    }
+
+    .action.delete {
+        color: #dc3545;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="income-header">
+    <h2>Income</h2>
+    <a href="{% url 'income' %}">
+    <button class="add-income-btn">+ Add New Income</button>
+</a>
 </div>
 
-</body>
-</html>
+<!-- Filters -->
+<div class="income-filters">
+    <input type="text" placeholder="Search Income..." class="filter-input">
+
+    <select class="filter-input">
+        <option>All Category</option>
+        <option>Food</option>
+        <option>Transport</option>
+        <option>Rent</option>
+    </select>
+
+    <select class="filter-input">
+        <option>All Payment Modes</option>
+        <option>Cash</option>
+        <option>Online</option>
+        <option>Card</option>
+    </select>
+
+    <input type="date" class="filter-input">
+
+    <select class="filter-input">
+        <option>Sort By</option>
+        <option>Date</option>
+        <option>Amount</option>
+    </select>
+</div>
+
+<!-- Expenses Table -->
+<div class="income-table-wrapper">
+    <table class="income-table">
+        <thead>
+            <tr>
+                <th>Exp No.</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Payment Mode</th>
+                <th>Total Amount</th>
+                <th>Remarks</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for e in income %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ e.category }}</td>
+                <td>{{ e.date }}</td>
+                <td>{{ e.payment_mode }}</td>
+                <td>Rs. {{ e.amount }}</td>
+                <td>{{ e.remarks }}</td>
+                <td>
+                    <a class="action edit">Edit</a>
+                    <a class="action delete">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

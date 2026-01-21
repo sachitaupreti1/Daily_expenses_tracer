@@ -107,6 +107,10 @@
 
 <h2>All Transactions</h2>
 
+<div style="text-align:center; margin:16px 0;">
+    <button onclick="openModal()" style="padding:10px 16px; background:#28a745; color:#fff; border:none; border-radius:6px; cursor:pointer;">+ Add New Expense</button>
+</div>
+
 <table>
     <tr>
         <th>S.N</th>
@@ -165,6 +169,42 @@
     </tr>
     {% endfor %}
 </table>
+
+<!-- ADD EXPENSE MODAL -->
+<div id="expenseModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:#fff; padding:20px; border-radius:10px; width:90%; max-width:480px; margin:60px auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h3 style="margin:0;">Add Expense</h3>
+            <span onclick="closeModal()" style="font-size:22px; cursor:pointer;">×</span>
+        </div>
+
+        <form method="POST" action="{% url 'add_expenses' %}">
+            {% csrf_token %}
+            <div style="display:flex; gap:10px; margin-bottom:12px;">
+                <input type="text" value="Manual" disabled style="flex:1; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <input type="date" name="date" value="{{ today }}" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:5px;">
+            </div>
+
+            <input type="text" name="category" placeholder="Expense Category" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; margin-bottom:12px;">
+
+            <div style="display:flex; gap:10px; margin-bottom:12px;">
+                <input type="number" name="amount" placeholder="Total Amount" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                <select name="payment_mode" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:5px;">
+                    <option>Cash</option>
+                    <option>Online</option>
+                    <option>Card</option>
+                </select>
+            </div>
+
+            <textarea name="remarks" placeholder="Remarks" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; margin-bottom:12px; min-height:80px;"></textarea>
+
+            <div style="display:flex; gap:10px; justify-content:flex-end;">
+                <button type="button" onclick="closeModal()" style="padding:8px 14px; border:1px solid #ccc; border-radius:5px; background:#f0f0f0;">Cancel</button>
+                <button type="submit" style="padding:8px 14px; border:none; border-radius:5px; background:#28a745; color:#fff;">Save Expense</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <!-- ===== JAVASCRIPT ===== -->
 <script>

@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expenses</title>
+    <link rel="stylesheet" href="{% static 'accounts/expenses.css' %}">
+</head>
+<body>
+
+<div class="top-bar">
+    <h1>Expenses</h1>
+    <button class="add-btn" onclick="openModal()">+ Add New Expense</button>
+</div>
+
+<div class="filters">
+    <input type="text" placeholder="Search Expense...">
+    <select><option>All Category</option></select>
+    <select><option>All Payment Modes</option></select>
+    <input type="date">
+    <select><option>Sort By</option></select>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Exp No.</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Payment Mode</th>
+            <th>Total Amount</th>
+            <th>Remarks</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in expenses %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ e.category }}</td>
+            <td>{{ e.date }}</td>
+            <td>{{ e.payment_mode }}</td>
+            <td>Rs. {{ e.amount }}</td>
+            <td>{{ e.remarks }}</td>
+            <td>
+                <a href="{% url 'edit_expense' e.id %}" class="edit">Edit</a>
+                <a href="{% url 'delete_expense' e.id %}" class="delete">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- ADD EXPENSE MODAL -->
+<div id="expenseModal" class="modal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>Add Expense</h3>
+            <span onclick="closeModal()">×</span>
+        </div>
+
+        <form method="POST">
+    {% csrf_token %}
+
+    <div class="row">
+        <input type="text" value="Manual" disabled>
+        <input type="date" name="date" value="{{ today }}">
+    </div>
+
+    <input type="text" name="category" placeholder="Expense Category" required>
+
+    <div class="row">
+        <input type="number" name="amount" placeholder="Total Amount" required>
+        <select name="payment_mode" required>
+            <option value="Cash">Cash</option>
+            <option value="Online">Online</option>
+            <option value="Card">Card</option>
+        </select>
+    </div>
+
+    <textarea name="remarks" placeholder="Remarks"></textarea>
+
+    <div class="modal-footer">
+        <button type="button" onclick="closeModal()" class="cancel">Cancel</button>
+        <button type="submit" class="save">Save Expense</button>
+    </div>
+</form>
+
+    </div>
+</div>
+
+<script>
+function openModal() {
+    document.getElementById("expenseModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("expenseModal").style.display = "none";
+}
+
+</script>
+</body>
+</html>
