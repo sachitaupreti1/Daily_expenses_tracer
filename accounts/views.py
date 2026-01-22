@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib import messages
 from datetime import date
 from .models import Income, Expense
+from django.db.models import Sum
+
 
 # =========================
 # AUTH & DASHBOARD
@@ -11,7 +13,19 @@ from .models import Income, Expense
 def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    return render(request, "accounts/dashboard.html")
+
+    total_income = Income.objects.filter(user=request.user).aggregate(
+        total=Sum('amount')
+    )['total'] or 0
+
+    total_expense = Expense.objects.filter(user=request.user).aggregate(
+        total=Sum('amount')
+    )['total'] or 0
+
+    return render(request, "accounts/dashboard.html", {
+        'total_income': total_income,
+        'total_expense': total_expense,
+    })
 
 
 def login(request):
