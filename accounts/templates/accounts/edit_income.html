@@ -1,91 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Income</title>
+{% extends 'accounts/base.html' %}
+{% block title %}Edit Income{% endblock %}
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f7;
-            padding: 40px;
-        }
+{% block content %}
+<div class="modal-box" style="background:white; padding:30px; border-radius:10px; width:500px; margin:auto;">
 
-        .form-box {
-            width: 400px;
-            margin: auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #27ae60;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #27ae60;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #219150;
-        }
-
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-            text-decoration: none;
-            color: #555;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="form-box">
-    <h2>Edit Income</h2>
+    <h3>Edit Income</h3>
 
     <form method="POST">
         {% csrf_token %}
 
-        <label>Source</label>
-        <input type="text" name="source" value="{{ income.source }}" required>
+        <input type="date"
+               name="date"
+               value="{{ income.date|date:'Y-m-d' }}"
+               style="width:100%; padding:10px; margin-bottom:15px;"
+               required>
 
-        <label>Amount</label>
-        <input type="number" name="amount" value="{{ income.amount }}" required>
+        <input type="text"
+               name="category"
+               value="{{ income.category }}"
+               placeholder="Category"
+               style="width:100%; padding:10px; margin-bottom:15px;"
+               required>
 
-        <label>Date</label>
-        <input type="date" name="date" value="{{ income.date|date:'Y-m-d' }}" required>
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+            <input type="number"
+                   name="amount"
+                   value="{{ income.amount }}"
+                   placeholder="Amount"
+                   style="flex:1; padding:10px;"
+                   required>
 
-        <button type="submit">Update Income</button>
+            <select name="payment_mode" style="flex:1; padding:10px;">
+                <option value="Cash" {% if income.payment_mode == "Cash" %}selected{% endif %}>Cash</option>
+                <option value="Online" {% if income.payment_mode == "Online" %}selected{% endif %}>Online</option>
+                <option value="Card" {% if income.payment_mode == "Card" %}selected{% endif %}>Card</option>
+            </select>
+        </div>
+
+        <textarea name="remarks"
+                  placeholder="Remarks"
+                  style="width:100%; padding:10px; min-height:80px;">{{ income.remarks }}</textarea>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+            <a href="{% url 'income' %}" style="padding:10px 20px; border:1px solid #ccc;">Cancel</a>
+            <button type="submit"
+                    style="padding:10px 20px; background:#28a745; color:white; border:none;">
+                Update Income
+            </button>
+        </div>
     </form>
-
-    <a href="{% url 'all_transactions' %}" class="back-link">⬅ Back to Transactions</a>
 </div>
-
-</body>
-</html>
+{% endblock %}
