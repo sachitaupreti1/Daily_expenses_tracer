@@ -153,23 +153,25 @@ def all_transactions(request):
 # EDIT INCOME
 # =========================
 
-def edit_income(request, id):
-    if not request.user.is_authenticated:
-        return redirect('login')
 
+def edit_income(request, id):
     income = get_object_or_404(Income, id=id, user=request.user)
 
     if request.method == "POST":
         income.category = request.POST.get("category")
         income.amount = request.POST.get("amount")
         income.payment_mode = request.POST.get("payment_mode")
-        income.date = request.POST.get("date")
+
+        date_value = request.POST.get("date")
+        if date_value:
+            income.date = date_value
+
         income.remarks = request.POST.get("remarks", "")
         income.save()
-        return redirect('income')
 
-    return render(request, 'accounts/edit_income.html', {'income': income})
+        return redirect("income")
 
+    return render(request, "accounts/edit_income.html", {"income": income})
 
 # =========================
 # EDIT EXPENSE
@@ -196,6 +198,9 @@ def edit_expense(request, id):
     return render(request, 'accounts/edit_expense.html', {
         'expense': expense
     })
+
+
+
 
 
 # =========================
