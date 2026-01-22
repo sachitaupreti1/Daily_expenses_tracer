@@ -45,13 +45,25 @@
 
         <section class="dashboard-info">
             <div class="card">
-                <h3>💸 Total Expenses</h3>
-                <p>Rs. 0</p>
-            </div>
-            <div class="card">
-                <h3>💰 Total Income</h3>
-                <p>Rs. 0</p>
-            </div>
+    <div class="card-header">
+        <span>💸</span>
+        <h4>Total Expenses</h4>
+    </div>
+    <div class="card-body">
+        <h3>Rs. {{ total_expense }}</h3>
+    </div>
+</div>
+
+           <div class="card">
+    <div class="card-header">
+        <span>💰</span>
+        <h4>Total Income</h4>
+    </div>
+    <div class="card-body">
+        <h3>Rs. {{ total_income }}</h3>
+    </div>
+</div>
+
             <div class="card">
                 <h3>📈 Up comming Expenses/Income</h3>
               
