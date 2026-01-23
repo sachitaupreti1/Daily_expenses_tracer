@@ -44,25 +44,29 @@
         <p>Track income, expenses, and get future spending predictions with alerts.</p>
 
         <section class="dashboard-info">
-            <div class="card">
+           <div class="card">
     <div class="card-header">
         <span>💸</span>
         <h4>Total Expenses</h4>
     </div>
     <div class="card-body">
         <h3>Rs. {{ total_expense }}</h3>
+        <small>{{ month_name }} total</small>
     </div>
 </div>
 
-           <div class="card">
+
+          <div class="card">
     <div class="card-header">
         <span>💰</span>
         <h4>Total Income</h4>
     </div>
     <div class="card-body">
         <h3>Rs. {{ total_income }}</h3>
+        <small>{{ month_name }} total</small>
     </div>
 </div>
+
 
             <div class="card">
                 <h3>📈 Up comming Expenses/Income</h3>
@@ -115,9 +119,9 @@ const weeklyData = {
 
 const monthlyData = {
    labels: [
-    'Baisakh', 'Jestha', 'Ashadh', 'Shrawan',
-    'Bhadra', 'Ashwin', 'Kartik', 'Mangsir',
-    'Poush', 'Magh', 'Falgun', 'Chaitra'
+    'jan', 'feb', 'mar', 'apr',
+    'may', 'jun', 'jul', 'aug',
+    'sep', 'oct', 'nov', 'dec'
 ],
  
 
