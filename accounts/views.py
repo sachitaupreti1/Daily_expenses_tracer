@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib import messages
 from datetime import date
 from .models import Income, Expense
+from django.utils.timezone import now
+import calendar
 from django.db.models import Sum
 
 
@@ -14,17 +16,27 @@ def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    total_income = Income.objects.filter(user=request.user).aggregate(
-        total=Sum('amount')
-    )['total'] or 0
+    today = now()
+    current_month = today.month
+    current_year = today.year
+    month_name = calendar.month_name[current_month]
 
-    total_expense = Expense.objects.filter(user=request.user).aggregate(
-        total=Sum('amount')
-    )['total'] or 0
+    total_income = Income.objects.filter(
+        user=request.user,
+        date__month=current_month,
+        date__year=current_year
+    ).aggregate(total=Sum('amount'))['total'] or 0
+
+    total_expense = Expense.objects.filter(
+        user=request.user,
+        date__month=current_month,
+        date__year=current_year
+    ).aggregate(total=Sum('amount'))['total'] or 0
 
     return render(request, "accounts/dashboard.html", {
         'total_income': total_income,
         'total_expense': total_expense,
+        'month_name': month_name,
     })
 
 
