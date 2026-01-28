@@ -8,9 +8,7 @@ import calendar
 from django.db.models import Sum
 
 
-# =========================
-# AUTH & DASHBOARD
-# =========================
+# for dashboard view
 
 def dashboard(request):
     if not request.user.is_authenticated:
@@ -31,13 +29,17 @@ def dashboard(request):
         user=request.user,
         date__month=current_month,
         date__year=current_year
-    ).aggregate(total=Sum('amount'))['total'] or 0
+    ).aggregate(total=Sum('amount'))['total'] or 0 
+    total_amount = total_income - total_expense
 
     return render(request, "accounts/dashboard.html", {
         'total_income': total_income,
         'total_expense': total_expense,
+        'total_amount': total_amount,   
         'month_name': month_name,
     })
+
+    
 
 
 def login(request):
@@ -63,10 +65,7 @@ def logout_view(request):
         return redirect('login')
     return render(request, "accounts/logout.html")
 
-
-# =========================
-# ADD INCOME
-# =========================
+# for income addition view
 
 def add_income(request):
     if not request.user.is_authenticated:
@@ -97,10 +96,7 @@ def add_income(request):
 
     return render(request, "accounts/add_income.html")
 
-
-# =========================
-# ADD EXPENSE
-# =========================
+# for income addition view
 
 def add_expenses(request):
     if not request.user.is_authenticated:
@@ -131,11 +127,7 @@ def add_expenses(request):
 
     return redirect('expenses')
 
-
-# =========================
-# ALL TRANSACTIONS
-# =========================
-
+# for all transactions view
 def all_transactions(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -174,11 +166,7 @@ def all_transactions(request):
         'today': date.today()
     })
 
-
-# =========================
-# EDIT INCOME
-# =========================
-
+# for editing income view
 
 def edit_income(request, id):
     income = get_object_or_404(Income, id=id, user=request.user)
@@ -199,9 +187,7 @@ def edit_income(request, id):
 
     return render(request, "accounts/edit_income.html", {"income": income})
 
-# =========================
-# EDIT EXPENSE
-# =========================
+# for editing expense view
 
 
 
@@ -228,10 +214,7 @@ def edit_expense(request, id):
 
 
 
-
-# =========================
-# DELETE INCOME
-# =========================
+# for deleting income view
 
 def delete_income(request, id):
     if not request.user.is_authenticated:
@@ -251,10 +234,7 @@ def delete_income(request, id):
         'payment': income.payment_mode
     })
 
-
-# =========================
-# DELETE EXPENSE
-# =========================
+# for deleting expense view
 
 def delete_expense(request, id):
     if not request.user.is_authenticated:
@@ -273,11 +253,7 @@ def delete_expense(request, id):
         'category': expense.category
     })
 
-
-# =========================
-# INCOME PAGE
-# =========================
-
+#income page view
 def income(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -311,10 +287,7 @@ def income(request):
         'today': date.today()
     })
 
-
-# =========================
-# EXPENSE PAGE
-# =========================
+#expense page view
 
 def expense(request):
     if not request.user.is_authenticated:
