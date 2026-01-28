@@ -121,10 +121,8 @@ def add_expenses(request):
             date=expense_date,
             remarks=remarks
         )
-
         messages.success(request, "Expense added successfully ✅")
         return redirect('expenses')
-
     return redirect('expenses')
 
 # for all transactions view
