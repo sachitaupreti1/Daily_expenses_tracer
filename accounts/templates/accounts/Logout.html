@@ -1,21 +1,20 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Logout</title>
     <link rel="stylesheet" href="{% static 'accounts/logout.css' %}">
 </head>
 <body>
-
 <div class="logout-container">
     <h2>Are you sure you want to logout?</h2>
 
-    <form method="post" action="{% url 'logout' %}">
+    <form method="post">
         {% csrf_token %}
         <button type="submit" class="logout-btn">Yes, Logout</button>
         <a href="{% url 'dashboard' %}" class="cancel-btn">Cancel</a>
     </form>
 </div>
-
 </body>
 </html>
