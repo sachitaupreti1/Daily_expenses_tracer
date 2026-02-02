@@ -5,39 +5,47 @@ from datetime import date
 from .models import Income, Expense
 from django.utils.timezone import now
 import calendar
-from django.db.models import Sum
+from django.db.models import Sum 
+from datetime import datetime 
+
 
 
 # for dashboard view
 
 def dashboard(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
+    now = datetime.now()
 
-    today = now()
-    current_month = today.month
-    current_year = today.year
-    month_name = calendar.month_name[current_month]
-
-    total_income = Income.objects.filter(
-        user=request.user,
-        date__month=current_month,
-        date__year=current_year
-    ).aggregate(total=Sum('amount'))['total'] or 0
+    current_month = now.month
+    current_year = now.year
+    month_name = now.strftime("%B")  # February, March, etc.
 
     total_expense = Expense.objects.filter(
-        user=request.user,
         date__month=current_month,
-        date__year=current_year
-    ).aggregate(total=Sum('amount'))['total'] or 0 
+        date__year=current_year,
+        user=request.user
+    ).aggregate(total=Sum('amount'))['total'] or 0
+
+    total_income = Income.objects.filter(
+        date__month=current_month,
+        date__year=current_year,
+        user=request.user
+    ).aggregate(total=Sum('amount'))['total'] or 0
+
+    total_expense = Expense.objects.aggregate(total=Sum('amount'))['total'] or 0
+    total_income = Income.objects.aggregate(total=Sum('amount'))['total'] or 0
     total_amount = total_income - total_expense
 
     return render(request, "accounts/dashboard.html", {
-        'total_income': total_income,
         'total_expense': total_expense,
-        'total_amount': total_amount,   
-        'month_name': month_name,
+        'total_income': total_income,
+        'total_amount': total_amount,
     })
+    
+
+    return render(request, "accounts/dashboard.html", context)
+
+
+
 
     
 
