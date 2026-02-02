@@ -44,37 +44,39 @@
         <p>Track income, expenses, and get future spending predictions with alerts.</p>
 
         <section class="dashboard-info">
-           <div class="card">
-    <div class="card-header">
-        <span>💸</span>
-        <h4>Total Expenses</h4>
-    </div>
-    <div class="card-body">
-        <h3>Rs. {{ total_expense }}</h3>
-        <small>{{ month_name }} total</small>
-    </div>
+
+    <!-- Total Expenses -->
+    <div class="card">
+  <div class="card-header">
+    💸 <h4>Total Expenses</h4>
+  </div>
+  <div class="card-body">
+    <h3>Rs. {{ total_expense }}</h3>
+    <small>{{ month_name }} total</small>
+  </div>
 </div>
 
-          <div class="card">
-    <div class="card-header">
-        <span>💰</span>
-        <h4>Total Income</h4>
-    </div>
-    <div class="card-body">
-        <h3>Rs. {{ total_income }}</h3>
-        <small>{{ month_name }} total</small>
-    </div>
+    <!-- Total Income -->
+     
+<div class="card">
+  <div class="card-header">
+    💰 <h4>Total Income</h4>
+  </div>
+  <div class="card-body">
+    <h3>Rs. {{ total_income }}</h3>
+    <small>February total</small>
+  </div>
 </div>
-
- <div class="card">
-    <div class="card-header">
-        <span>💰</span>
-        <h4>Total Amount</h4>
-    </div>
-    <div class="card-body">
-        <h3>Rs. {{ total_amount }}</h3>
-        <small>{{ month_name }} total</small>
-    </div>
+   
+    <!-- Total Amount -->
+    <div class="card">
+  <div class="card-header">
+    🧮 <h4>Total Amount</h4>
+  </div>
+  <div class="card-body">
+    <h3>Rs. {{ total_amount }}</h3>
+    <small>February total</small>
+  </div>
 </div>
             <div class="card alert-card">
                 <h3>🔔 Reminders</h3>
