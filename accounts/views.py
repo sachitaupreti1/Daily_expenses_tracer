@@ -45,11 +45,6 @@ def dashboard(request):
     return render(request, "accounts/dashboard.html", context)
 
 
-
-
-    
-
-
 def login(request):
     if request.method == "POST":
         username = request.POST.get('username')
